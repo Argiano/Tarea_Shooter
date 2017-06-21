@@ -5,13 +5,14 @@
  */
 package tarea_shooter;
 
+import tarea_shooter.enemy.Enemy;
 import java.awt.*;
-//import java.awt.event.*;
+import java.awt.event.*;
 //import java.io.File;
 import javax.swing.*;
 import java.util.*;
 //import javax.sound.sampled.*;
-import tarea_shooter.Enemy.*;
+import tarea_shooter.player.*;
 
 
 /**
@@ -22,6 +23,7 @@ public final class Tarea_Shooter{
     
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
+    private Player player;
     JPanel gamePanel;
     int xPos,yPos;
 
@@ -36,17 +38,18 @@ public final class Tarea_Shooter{
     }
     public Tarea_Shooter(){
         createFrame(800,600,"Tarea");
-        Enemies = new ArrayList<>(10);
-        createEnemies(10);
-        Enemies.get(2).kill();
-        Enemies.get(9).kill();
-        Enemies.get(6).kill();
+        
+        Enemies = new ArrayList<>(50);
+        createEnemies(50);
+        
+        player = new Player(Enemies.size());
+        player.setPosition(mainFrame.getWidth()/2, 500);
         
         gamePanel = new drawGamePanel();
         mainFrame.add(BorderLayout.CENTER,gamePanel);
         
+        mainFrame.addKeyListener(new gameKeyListener());
         endFrame();
-    
     }
     public static void main(String[] args) {
         Enemy enemigo = new Enemy();
@@ -55,7 +58,7 @@ public final class Tarea_Shooter{
     
     public void createEnemies(int enemyNumber){
         for (int step = 0; step<enemyNumber; step++){
-            Enemies.add(new Enemy((int) (Math.random() * 500) + 50,
+            Enemies.add(new Enemy((int) (Math.random() * 770),
                     (int) (Math.random() * (mainFrame.getHeight()/2))));
         }
     }
@@ -65,14 +68,39 @@ public final class Tarea_Shooter{
         public void paintComponent(Graphics g){
             for (int step = 0; step<Enemies.size() && Enemies.get(step)!= null; step++){
                 if (Enemies.get(step).isAlive()){
-                    xPos = (int) Enemies.get(step).getX() - 15;
-                    yPos = (int) Enemies.get(step).getY() - 15;
+                    xPos = (int) Enemies.get(step).getX();
+                    yPos = (int) Enemies.get(step).getY();
                     g.drawOval(xPos, yPos, 30, 30);
                     String eNumber = Integer.toString(step);
                     g.drawString(eNumber, xPos + 15, yPos + 15);
+                    
+                    g.fillRect(player.getX(),player.getY(), 50, 30);
                 }
             }
         }
     }
     
+    class gameKeyListener implements KeyListener{
+
+        @Override
+        public void keyTyped(KeyEvent e) {}
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int speed = e.getModifiers() == 1 ? 10 : 2;
+            switch(e.getKeyCode()){
+                case 37:
+                    player.setX(player.getX()-speed);
+                    break;
+                case 39:
+                    player.setX(player.getX()+speed);
+                    break;
+            }
+            mainFrame.repaint();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
+        
+    }
 }
