@@ -20,13 +20,29 @@ import tarea_shooter.player.*;
  * @author e_ver
  */
 public final class Tarea_Shooter{
-    
+    private JFrame firstFrame;
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
     private Player player;
     JPanel gamePanel;
+    JTextField introText;
+    JLabel introLabel;
     int xPos,yPos;
-
+    static int numberOfEnemies=0;
+    boolean inputValidator=true;
+    public void createFirstFrame(){
+        firstFrame = new JFrame("Welcome to this nice full HD 4K shooter game");
+        firstFrame.setSize(600,100);
+        firstFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        firstFrame.setLayout(new GridLayout(2,1));
+        introText = new JTextField(2);
+        introLabel = new JLabel("    Ingrese el número de enemigos (ingrese un numero y presione enter para continuar):");
+        firstFrame.add(introLabel);
+        firstFrame.add(introText);
+        introText.addKeyListener(new introKeyListener());
+        firstFrame.setVisible(true);
+        
+    }
     public void createFrame(int width, int height, String frameText){
         mainFrame = new JFrame(frameText);
         mainFrame.setSize(width,height);
@@ -37,6 +53,7 @@ public final class Tarea_Shooter{
         mainFrame.setVisible(true);
     }
     public Tarea_Shooter(){
+        createFirstFrame();
         createFrame(800,600,"Tarea");
         
         Enemies = new ArrayList<>(50);
@@ -58,8 +75,7 @@ public final class Tarea_Shooter{
     
     public void createEnemies(int enemyNumber){
         for (int step = 0; step<enemyNumber; step++){
-            Enemies.add(new Enemy((int) (Math.random() * 770),
-                    (int) (Math.random() * (mainFrame.getHeight()/2))));
+            Enemies.add(new Enemy((int) (Math.random() * 770),(int) (Math.random() * (mainFrame.getHeight()/2))));
         }
     }
     
@@ -95,11 +111,38 @@ public final class Tarea_Shooter{
                 case 39:
                     player.setX(player.getX()+speed);
                     break;
+                /*case 90://90='z'
+                    
+                    break;*/
             }
             mainFrame.repaint();
         }
 
         @Override
+        public void keyReleased(KeyEvent e) {}
+        
+    }
+    
+    class introKeyListener implements KeyListener{
+        
+        public void keyTyped(KeyEvent e) {}
+        
+        public void keyPressed(KeyEvent e){
+            if(e.getKeyCode()==10){ //10=enter
+                try{
+                    numberOfEnemies = Integer.parseInt(introText.getText());
+                    firstFrame.dispose();
+                    inputValidator=false;
+                }
+                catch(ArithmeticException errorOne){
+                    introLabel.setText("Ingrese un numero valido entero de enemigos por favor:");
+                }
+                catch(NumberFormatException errorTwo){
+                    introLabel.setText("Ingrese un numero entero por favor: ");
+                }
+            }
+        }
+        
         public void keyReleased(KeyEvent e) {}
         
     }
