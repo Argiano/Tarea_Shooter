@@ -17,7 +17,8 @@ import tarea_shooter.player.*;
 
 /**
  *
- * @author e_ver
+ * @author Eduardo Vera
+ * @author Rodrigo Stevenson
  */
 public final class Tarea_Shooter{
     private JFrame firstFrame;
