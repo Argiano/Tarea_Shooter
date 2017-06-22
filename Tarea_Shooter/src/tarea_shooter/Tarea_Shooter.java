@@ -162,6 +162,7 @@ public final class Tarea_Shooter{
             createEnemies(numberOfEnemies);
             player = new Player(Enemies.size());
             player.setPosition(mainFrame.getWidth()/2, 500);
+            mainFrame.repaint();
         }
         
         @Override
