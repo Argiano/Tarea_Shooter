@@ -29,6 +29,7 @@ public final class Tarea_Shooter{
     int xPos,yPos;
     static int numberOfEnemies=0;
     boolean inputValidator=true;
+    
     public void createFirstFrame(){
         firstFrame = new JFrame("Welcome to this nice full HD 4K shooter game");
         firstFrame.setSize(600,100);
@@ -105,14 +106,14 @@ public final class Tarea_Shooter{
             int speed = e.getModifiers() == 1 ? 10 : 2;
             switch(e.getKeyCode()){
                 case 37:
+                    //37 = LeftArrow
                     player.setX(player.getX()-speed);
                     break;
                 case 39:
+                    //38 = RightArrow
                     player.setX(player.getX()+speed);
                     break;
-                /*case 90://90='z'
-                    
-                    break;*/
+
             }
             mainFrame.repaint();
         }
