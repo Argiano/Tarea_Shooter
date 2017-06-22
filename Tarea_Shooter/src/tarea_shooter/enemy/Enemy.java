@@ -20,5 +20,4 @@ public class Enemy extends Player{
         super.setPosition(xPos,yPos);
     }
 
-    
 }
