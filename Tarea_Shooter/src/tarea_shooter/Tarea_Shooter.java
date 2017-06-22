@@ -16,7 +16,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *   
  *  Contact: eduverab@outlook.com
-ttt
  */
 package tarea_shooter;
 
