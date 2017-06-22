@@ -8,10 +8,8 @@ package tarea_shooter;
 import tarea_shooter.enemy.Enemy;
 import java.awt.*;
 import java.awt.event.*;
-//import java.io.File;
 import javax.swing.*;
 import java.util.*;
-//import javax.sound.sampled.*;
 import tarea_shooter.player.*;
 
 
