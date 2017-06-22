@@ -125,8 +125,10 @@ public final class Tarea_Shooter{
     
     class introKeyListener implements KeyListener{
         
+        @Override
         public void keyTyped(KeyEvent e) {}
         
+        @Override
         public void keyPressed(KeyEvent e){
             if(e.getKeyCode()==10){ //10=enter
                 try{
@@ -143,6 +145,7 @@ public final class Tarea_Shooter{
             }
         }
         
+        @Override
         public void keyReleased(KeyEvent e) {}
         
     }
