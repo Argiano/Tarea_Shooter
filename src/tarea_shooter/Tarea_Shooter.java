@@ -18,6 +18,7 @@ import tarea_shooter.player.*;
 /**
  *
  * @author e_ver
+ * @author r_ste
  */
 public final class Tarea_Shooter{
     private JFrame firstFrame;
