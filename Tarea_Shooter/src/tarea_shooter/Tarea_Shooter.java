@@ -53,20 +53,16 @@ public final class Tarea_Shooter{
         mainFrame.setVisible(true);
     }
     public Tarea_Shooter(){
-        createFirstFrame();
         createFrame(800,600,"Tarea");
-        
-        Enemies = new ArrayList<>(50);
-        createEnemies(50);
-        
-        player = new Player(Enemies.size());
-        player.setPosition(mainFrame.getWidth()/2, 500);
+
+        Enemies = new ArrayList<>();
         
         gamePanel = new drawGamePanel();
         mainFrame.add(BorderLayout.CENTER,gamePanel);
         
         mainFrame.addKeyListener(new gameKeyListener());
         endFrame();
+        createFirstFrame();
     }
     public static void main(String[] args) {
         Enemy enemigo = new Enemy();
@@ -130,7 +126,8 @@ public final class Tarea_Shooter{
         
         @Override
         public void keyPressed(KeyEvent e){
-            if(e.getKeyCode()==10){ //10=enter
+            if(e.getKeyCode()==10){
+                //10=enter
                 try{
                     numberOfEnemies = Integer.parseInt(introText.getText());
                     firstFrame.dispose();
@@ -143,6 +140,10 @@ public final class Tarea_Shooter{
                     introLabel.setText("Ingrese un numero entero por favor: ");
                 }
             }
+            Enemies = new ArrayList(numberOfEnemies);
+            createEnemies(numberOfEnemies);
+            player = new Player(Enemies.size());
+            player.setPosition(mainFrame.getWidth()/2, 500);
         }
         
         @Override
