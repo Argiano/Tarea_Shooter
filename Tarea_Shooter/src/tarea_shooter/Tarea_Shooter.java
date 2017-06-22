@@ -1,7 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   *Tarea_Shooter* is a basic Java game.
+ *   Copyright (C) <2017>  <Eduardo Vera, Rodrigo Stevenson>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
+ *  Contact: eduverab@outlook.com
  */
 package tarea_shooter;
 
@@ -36,13 +50,16 @@ public final class Tarea_Shooter{
         firstFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         firstFrame.setLayout(new GridLayout(2,1));
         introText = new JTextField(2);
-        introLabel = new JLabel("    Ingrese el número de enemigos (ingrese un numero y presione enter para continuar):");
+        introLabel = new JLabel("Ingrese el número de enemigos (ingrese un "
+                + "numero y presione enter para continuar):");
+        introLabel.setHorizontalAlignment(JLabel.CENTER);
+        
         firstFrame.add(introLabel);
         firstFrame.add(introText);
         introText.addKeyListener(new introKeyListener());
         firstFrame.setVisible(true);
-        
     }
+    
     public void createFrame(int width, int height, String frameText){
         mainFrame = new JFrame(frameText);
         mainFrame.setSize(width,height);
@@ -71,7 +88,8 @@ public final class Tarea_Shooter{
     
     public void createEnemies(int enemyNumber){
         for (int step = 0; step<enemyNumber; step++){
-            Enemies.add(new Enemy((int) (Math.random() * 770),(int) (Math.random() * (mainFrame.getHeight()/2))));
+            Enemies.add(new Enemy((int) (Math.random() * 770),
+                    (int) (Math.random() * (mainFrame.getHeight()/2))));
         }
     }
     
