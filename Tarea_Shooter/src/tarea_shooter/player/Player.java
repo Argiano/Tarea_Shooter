@@ -10,6 +10,7 @@ import tarea_shooter.enemy.Punto2D;
 /**
  *
  * @author e_ver
+ * @author r_ste
  */
 public class Player{
     private Punto2D Position;
