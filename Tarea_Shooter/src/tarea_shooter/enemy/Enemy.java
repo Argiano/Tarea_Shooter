@@ -8,7 +8,8 @@ import tarea_shooter.player.Player;
 
 /**
  *
- * @author e_ver
+ * @author Eduardo Vera
+ * @author Rodrigo Stevenson
  */
 public class Enemy extends Player{
     private int size;

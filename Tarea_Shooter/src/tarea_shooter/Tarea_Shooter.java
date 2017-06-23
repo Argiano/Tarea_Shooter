@@ -28,11 +28,11 @@ import tarea_shooter.player.*;
 
 
 /**
- *
+ * @version 0.5
  * @author Eduardo Vera
  * @author Rodrigo Stevenson
  */
-public final class Tarea_Shooter{
+public final class Tarea_Shooter extends Thread{
     private JFrame firstFrame;
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
@@ -84,6 +84,8 @@ public final class Tarea_Shooter{
     public static void main(String[] args) {
         Enemy enemigo = new Enemy();
         Tarea_Shooter tarea = new Tarea_Shooter();
+        Thread thread1 = new Tarea_Shooter();
+        thread1.start();
     }
     
     public void createEnemies(int enemyNumber){
@@ -93,6 +95,17 @@ public final class Tarea_Shooter{
         }
     }
     
+    @Override
+    public void run(){
+        try{
+            while(true){
+                mainFrame.repaint();
+                System.out.println("repaint");
+            }
+        }catch(Exception ex){};
+    }
+    
+    //CLASSES
     class drawGamePanel extends JPanel{
         @Override
         public void paintComponent(Graphics g){
