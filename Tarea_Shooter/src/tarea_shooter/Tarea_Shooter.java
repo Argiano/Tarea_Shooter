@@ -19,12 +19,15 @@
  */
 package tarea_shooter;
 
-import tarea_shooter.enemy.Enemy;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tarea_shooter.player.*;
+import tarea_shooter.enemy.Enemy;
+import tarea_shooter.bullet.Bullet;
 
 
 /**
@@ -36,6 +39,8 @@ public final class Tarea_Shooter extends Thread{
     private JFrame firstFrame;
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
+    private ArrayList<Bullet> Bullets;
+    private Bullet bullet;
     //^areglar por yPos
     private Player player;
     JPanel gamePanel;
@@ -78,6 +83,8 @@ public final class Tarea_Shooter extends Thread{
 
         Enemies = new ArrayList<>();
         player = new Player();
+        bullet = new Bullet();
+        bullet.kill();
         
         gamePanel = new drawGamePanel();
         mainFrame.add(BorderLayout.CENTER,gamePanel);
@@ -90,7 +97,7 @@ public final class Tarea_Shooter extends Thread{
         //Enemy enemigo = new Enemy();
         //Tarea_Shooter tarea = new Tarea_Shooter();
         Thread thread1 = new Tarea_Shooter();
-        //thread1.start();
+        thread1.start();
     }
     
     public void createEnemies(int enemyNumber){
@@ -103,8 +110,17 @@ public final class Tarea_Shooter extends Thread{
     @Override
     public void run(){  
         while(true){
+            try{
+                if (bullet.isAlive()){
+                    //bullet.setX(player.getX());
+                    bullet.setY(bullet.getY()-1);
+                    if (bullet.getY() < 0)bullet.kill();
+                    Thread.sleep(10);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Tarea_Shooter.class.getName()).log(Level.SEVERE, null, ex);
+            }
             mainFrame.repaint();
-            System.out.println("repaint");
         }
     }
 
@@ -136,8 +152,12 @@ public final class Tarea_Shooter extends Thread{
                     String eNumber = Integer.toString(step);
                     g.drawString(eNumber, xPos + 15, yPos + 15);
                     g.fillRect(player.getX(),player.getY(), 50, 30);
+                    if(bullet.isAlive()){
+                        g.drawOval(bullet.getX(), bullet.getY(), 2, 10);
+                    }
                 }
-            }    
+            }
+
         }
     }
     
@@ -148,6 +168,7 @@ public final class Tarea_Shooter extends Thread{
 
         @Override
         public void keyPressed(KeyEvent e) {
+            System.out.println(e.getKeyCode());
             int speed = e.getModifiers() == 1 ? 10 : 3;
             switch(e.getKeyCode()){
                 case 37:
@@ -155,8 +176,14 @@ public final class Tarea_Shooter extends Thread{
                     player.setX(player.getX()-speed);
                     break;
                 case 39:
-                    //38 = RightArrow
+                    //39 = RightArrow
                     player.setX(player.getX()+speed);
+                    break;
+                case 32:
+                    //32 = SpaceBar
+                    if (!bullet.isAlive()){
+                        bullet = new Bullet(player.getX(),player.getY());
+                    }
                     break;
 
             }
@@ -176,7 +203,7 @@ public final class Tarea_Shooter extends Thread{
         @Override
         public void keyPressed(KeyEvent e){
             if(e.getKeyCode()==10){
-                //10=enter
+                //10 = Enter
                 try{
                     numberOfEnemies = Integer.parseInt(introText.getText());
                     System.out.println(numberOfEnemies);

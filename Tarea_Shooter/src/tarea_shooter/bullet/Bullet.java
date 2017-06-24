@@ -17,28 +17,21 @@
  *   
  *  Contact: eduverab@outlook.com
  */
-package tarea_shooter.enemy;
+package tarea_shooter.bullet;
+
 import tarea_shooter.player.Player;
 
 /**
- * The Enemy Class used to store and create enemies
- * @author Eduardo Vera
- * @author Rodrigo Stevenson
+ *
+ * @author e_ver
  */
-public class Enemy extends Player{
-    private int size = 30;
+public class Bullet extends Player{
     
-    public Enemy(){
+    public Bullet(){
+        super();
     }
-    public Enemy(int xPos, int yPos){
+    public Bullet(int xPos, int yPos){
         super.setAlive(true);
         super.setPosition(xPos,yPos);
     }
-    public int getSize(){
-        return size;
-    }
-    public void setSize(int size){
-        this.size = size;
-    }
-
 }

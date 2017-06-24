@@ -34,6 +34,7 @@ public class Player{
         alive = true;
     }
     public Player(int ammo){
+        super();
         this.ammo = ammo;
     }
     public void setAmmo(int ammo){
