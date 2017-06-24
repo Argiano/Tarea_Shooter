@@ -24,6 +24,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tarea_shooter.player.*;
 
 
@@ -36,6 +38,7 @@ public final class Tarea_Shooter extends Thread{
     private JFrame firstFrame;
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
+    //^areglar por yPos
     private Player player;
     JPanel gamePanel;
     JTextField introText;
@@ -85,7 +88,7 @@ public final class Tarea_Shooter extends Thread{
         Enemy enemigo = new Enemy();
         Tarea_Shooter tarea = new Tarea_Shooter();
         Thread thread1 = new Tarea_Shooter();
-        thread1.start();
+        //thread1.start();
     }
     
     public void createEnemies(int enemyNumber){
@@ -96,13 +99,13 @@ public final class Tarea_Shooter extends Thread{
     }
     
     @Override
-    public void run(){
-        try{
-            while(true){
-                mainFrame.repaint();
-                System.out.println("repaint");
-            }
-        }catch(Exception ex){};
+    public void run(){  
+        
+        while(true){
+            mainFrame.repaint();
+            System.out.println("repaint");
+        }
+   
     }
     
     //CLASSES
@@ -116,7 +119,6 @@ public final class Tarea_Shooter extends Thread{
                     g.drawOval(xPos, yPos, 30, 30);
                     String eNumber = Integer.toString(step);
                     g.drawString(eNumber, xPos + 15, yPos + 15);
-                    
                     g.fillRect(player.getX(),player.getY(), 50, 30);
                 }
             }
@@ -161,6 +163,10 @@ public final class Tarea_Shooter extends Thread{
                 //10=enter
                 try{
                     numberOfEnemies = Integer.parseInt(introText.getText());
+                    System.out.println(numberOfEnemies);
+                    if (1 > numberOfEnemies){
+                        throw new Exception();
+                    }
                     firstFrame.dispose();
                     inputValidator=false;
                 }
@@ -169,6 +175,9 @@ public final class Tarea_Shooter extends Thread{
                 }
                 catch(NumberFormatException errorTwo){
                     introLabel.setText("Ingrese un numero entero por favor: ");
+                }
+                catch (Exception ex) {
+                    introLabel.setText("Numero invalido");
                 }
             }
             Enemies = new ArrayList(numberOfEnemies);
