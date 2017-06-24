@@ -169,6 +169,11 @@ public final class Tarea_Shooter extends Thread{
                     }
                     firstFrame.dispose();
                     inputValidator=false;
+                    Enemies = new ArrayList(numberOfEnemies);
+                    createEnemies(numberOfEnemies);
+                    player = new Player(Enemies.size());
+                    player.setPosition(mainFrame.getWidth()/2, 500);
+                    mainFrame.repaint();
                 }
                 catch(ArithmeticException errorOne){
                     introLabel.setText("Ingrese un numero valido entero de enemigos por favor:");
@@ -180,11 +185,6 @@ public final class Tarea_Shooter extends Thread{
                     introLabel.setText("Numero invalido");
                 }
             }
-            Enemies = new ArrayList(numberOfEnemies);
-            createEnemies(numberOfEnemies);
-            player = new Player(Enemies.size());
-            player.setPosition(mainFrame.getWidth()/2, 500);
-            mainFrame.repaint();
         }
         
         @Override
