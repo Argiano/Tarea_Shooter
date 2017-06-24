@@ -31,7 +31,7 @@ import tarea_shooter.bullet.Bullet;
 
 
 /**
- * @version 0.55
+ * @version 0.6
  * @author Eduardo Vera
  * @author Rodrigo Stevenson
  */
@@ -41,11 +41,10 @@ public final class Tarea_Shooter extends Thread{
     private ArrayList<Enemy> Enemies;
     private ArrayList<Bullet> Bullets;
     private Bullet bullet;
-    //^areglar por yPos
     private Player player;
-    JPanel gamePanel;
-    JTextField introText;
-    JLabel introLabel;
+    private JPanel gamePanel;
+    private JTextField introText;
+    private JLabel introLabel;
     int xPos,yPos;
     static int numberOfEnemies;
     boolean inputValidator=true;
@@ -60,10 +59,11 @@ public final class Tarea_Shooter extends Thread{
                 + "numero y presione enter para continuar):");
         introLabel.setHorizontalAlignment(JLabel.CENTER);
         
-        
         firstFrame.add(introLabel);
         firstFrame.add(introText);
+        
         introText.addKeyListener(new introKeyListener());
+        
         firstFrame.setVisible(true);
         firstFrame.setDefaultCloseOperation(3);
     }
@@ -94,8 +94,7 @@ public final class Tarea_Shooter extends Thread{
         createFirstFrame();
     }
     public static void main(String[] args) {
-        //Enemy enemigo = new Enemy();
-        //Tarea_Shooter tarea = new Tarea_Shooter();
+
         Thread thread1 = new Tarea_Shooter();
         thread1.start();
     }
@@ -112,9 +111,9 @@ public final class Tarea_Shooter extends Thread{
         while(true){
             try{
                 if (bullet.isAlive()){
-                    //bullet.setX(player.getX());
                     bullet.setY(bullet.getY()-1);
                     if (bullet.getY() < 0)bullet.kill();
+                    killEnemy();
                     Thread.sleep(10);
                 }
             } catch (InterruptedException ex) {
@@ -122,6 +121,10 @@ public final class Tarea_Shooter extends Thread{
             }
             mainFrame.repaint();
         }
+    }
+    
+    public void killEnemy(){
+        
     }
 
     public void sortEnemies(){

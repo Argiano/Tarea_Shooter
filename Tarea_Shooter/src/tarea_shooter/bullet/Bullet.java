@@ -22,8 +22,9 @@ package tarea_shooter.bullet;
 import tarea_shooter.player.Player;
 
 /**
- *
- * @author e_ver
+ * This is the class of the Bullet
+ * @author Eduardo Vera
+ * @author Rodrigo Stevenson
  */
 public class Bullet extends Player{
     
