@@ -23,6 +23,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tarea_shooter.player.*;
@@ -94,7 +95,6 @@ public final class Tarea_Shooter extends Thread{
         createFirstFrame();
     }
     public static void main(String[] args) {
-
         Thread thread1 = new Tarea_Shooter();
         thread1.start();
     }
@@ -124,7 +124,17 @@ public final class Tarea_Shooter extends Thread{
     }
     
     public void killEnemy(){
-        
+        for (int step = 0; step < Enemies.size(); step++){
+            if(Enemies.get(step).isAlive()){
+                if (bullet.getY() == Enemies.get(step).getY()+30) {
+                    int diff = bullet.getX() - Enemies.get(step).getX();
+                    if(diff > 0 && Math.abs(diff)< 30){
+                        Enemies.get(step).kill();
+                        bullet.kill();
+                    }
+                }
+            }
+        }
     }
 
     public void sortEnemies(){
