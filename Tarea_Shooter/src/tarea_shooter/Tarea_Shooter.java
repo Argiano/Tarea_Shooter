@@ -24,13 +24,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import tarea_shooter.player.*;
 
 
 /**
- * @version 0.5
+ * @version 0.55
  * @author Eduardo Vera
  * @author Rodrigo Stevenson
  */
@@ -44,7 +42,7 @@ public final class Tarea_Shooter extends Thread{
     JTextField introText;
     JLabel introLabel;
     int xPos,yPos;
-    static int numberOfEnemies=0;
+    static int numberOfEnemies;
     boolean inputValidator=true;
     
     public void createFirstFrame(){
@@ -57,10 +55,12 @@ public final class Tarea_Shooter extends Thread{
                 + "numero y presione enter para continuar):");
         introLabel.setHorizontalAlignment(JLabel.CENTER);
         
+        
         firstFrame.add(introLabel);
         firstFrame.add(introText);
         introText.addKeyListener(new introKeyListener());
         firstFrame.setVisible(true);
+        firstFrame.setDefaultCloseOperation(3);
     }
     
     public void createFrame(int width, int height, String frameText){
@@ -72,10 +72,12 @@ public final class Tarea_Shooter extends Thread{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
     }
+
     public Tarea_Shooter(){
         createFrame(800,600,"Tarea");
 
         Enemies = new ArrayList<>();
+        player = new Player();
         
         gamePanel = new drawGamePanel();
         mainFrame.add(BorderLayout.CENTER,gamePanel);
@@ -85,8 +87,8 @@ public final class Tarea_Shooter extends Thread{
         createFirstFrame();
     }
     public static void main(String[] args) {
-        Enemy enemigo = new Enemy();
-        Tarea_Shooter tarea = new Tarea_Shooter();
+        //Enemy enemigo = new Enemy();
+        //Tarea_Shooter tarea = new Tarea_Shooter();
         Thread thread1 = new Tarea_Shooter();
         //thread1.start();
     }
@@ -100,15 +102,29 @@ public final class Tarea_Shooter extends Thread{
     
     @Override
     public void run(){  
-        
         while(true){
             mainFrame.repaint();
             System.out.println("repaint");
         }
-   
+    }
+
+    public void sortEnemies(){
+        for (int step = 0; step < Enemies.size(); step++){
+            for (int pos = 0; pos < Enemies.size() - 1; pos++){
+                if(Enemies.get(pos).getY() < Enemies.get(pos+1).getY()){
+                    Enemy tempEn = Enemies.get(pos+1);
+                    Enemies.set(pos+1, Enemies.get(pos));
+                    Enemies.set(pos, tempEn);
+                }
+            }
+        }
     }
     
-    //CLASSES
+    public void printEnemiesY(){
+        Enemies.forEach((x) -> System.out.println(x.getY()));
+    }
+    
+    //INNER CLASSES
     class drawGamePanel extends JPanel{
         @Override
         public void paintComponent(Graphics g){
@@ -121,7 +137,7 @@ public final class Tarea_Shooter extends Thread{
                     g.drawString(eNumber, xPos + 15, yPos + 15);
                     g.fillRect(player.getX(),player.getY(), 50, 30);
                 }
-            }
+            }    
         }
     }
     
@@ -132,7 +148,7 @@ public final class Tarea_Shooter extends Thread{
 
         @Override
         public void keyPressed(KeyEvent e) {
-            int speed = e.getModifiers() == 1 ? 10 : 2;
+            int speed = e.getModifiers() == 1 ? 10 : 3;
             switch(e.getKeyCode()){
                 case 37:
                     //37 = LeftArrow
@@ -169,8 +185,12 @@ public final class Tarea_Shooter extends Thread{
                     }
                     firstFrame.dispose();
                     inputValidator=false;
+                    
                     Enemies = new ArrayList(numberOfEnemies);
                     createEnemies(numberOfEnemies);
+                    sortEnemies();
+                    printEnemiesY();
+                    
                     player = new Player(Enemies.size());
                     player.setPosition(mainFrame.getWidth()/2, 500);
                     mainFrame.repaint();
