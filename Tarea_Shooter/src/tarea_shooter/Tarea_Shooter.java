@@ -23,7 +23,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tarea_shooter.player.*;
@@ -114,7 +113,7 @@ public final class Tarea_Shooter extends Thread{
                     bullet.setY(bullet.getY()-1);
                     if (bullet.getY() < 0)bullet.kill();
                     killEnemy();
-                    Thread.sleep(10);
+                    Thread.sleep(5);
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Tarea_Shooter.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,6 +130,9 @@ public final class Tarea_Shooter extends Thread{
                     if(diff > 0 && Math.abs(diff)< 30){
                         Enemies.get(step).kill();
                         bullet.kill();
+                        if(!Enemies.isEmpty() && enemiesDead()){
+                            createFirstFrame();
+                        }
                     }
                 }
             }
@@ -151,6 +153,15 @@ public final class Tarea_Shooter extends Thread{
     
     public void printEnemiesY(){
         Enemies.forEach((x) -> System.out.println(x.getY()));
+    }
+    public boolean enemiesDead(){
+        boolean allDead = false;
+        for (int step = 0; step < Enemies.size(); step++){
+            if(Enemies.get(step).isAlive()){
+                allDead = true;
+                }
+            }
+        return !allDead;   
     }
     
     //INNER CLASSES
@@ -198,7 +209,6 @@ public final class Tarea_Shooter extends Thread{
                         bullet = new Bullet(player.getX(),player.getY());
                     }
                     break;
-
             }
             mainFrame.repaint();
         }
