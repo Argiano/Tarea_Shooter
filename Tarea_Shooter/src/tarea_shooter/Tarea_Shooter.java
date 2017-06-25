@@ -31,7 +31,7 @@ import tarea_shooter.bullet.Bullet;
 
 
 /**
- * @version 0.6
+ * @version 0.7
  * @author Eduardo Vera
  * @author Rodrigo Stevenson
  */
@@ -39,7 +39,7 @@ public final class Tarea_Shooter extends Thread{
     private JFrame firstFrame;
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
-    private ArrayList<Bullet> Bullets;
+    //private ArrayList<Bullet> Bullets;
     private Bullet bullet;
     private Player player;
     private JPanel gamePanel;
@@ -102,6 +102,8 @@ public final class Tarea_Shooter extends Thread{
         for (int step = 0; step<enemyNumber; step++){
             Enemies.add(new Enemy((int) (Math.random() * 770),
                     (int) (Math.random() * (mainFrame.getHeight()/2))));
+            Enemies.get(step).setImage("tarea_shooter/images/enemy.png");
+            Enemies.get(step).setSize(30);
         }
     }
     
@@ -140,7 +142,7 @@ public final class Tarea_Shooter extends Thread{
     }
 
     public void sortEnemies(){
-        for (int step = 0; step < Enemies.size(); step++){
+        Enemies.forEach((_item) -> {
             for (int pos = 0; pos < Enemies.size() - 1; pos++){
                 if(Enemies.get(pos).getY() < Enemies.get(pos+1).getY()){
                     Enemy tempEn = Enemies.get(pos+1);
@@ -148,7 +150,7 @@ public final class Tarea_Shooter extends Thread{
                     Enemies.set(pos, tempEn);
                 }
             }
-        }
+        });
     }
     
     public void printEnemiesY(){
@@ -168,16 +170,25 @@ public final class Tarea_Shooter extends Thread{
     class drawGamePanel extends JPanel{
         @Override
         public void paintComponent(Graphics g){
+            int imgWidth, imgHeight;
             for (int step = 0; step<Enemies.size() && Enemies.get(step)!= null; step++){
                 if (Enemies.get(step).isAlive()){
                     xPos = (int) Enemies.get(step).getX();
                     yPos = (int) Enemies.get(step).getY();
-                    g.drawOval(xPos, yPos, 30, 30);
-                    String eNumber = Integer.toString(step);
-                    g.drawString(eNumber, xPos + 15, yPos + 15);
-                    g.fillRect(player.getX(),player.getY(), 50, 30);
+                    //g.drawOval(xPos, yPos, 30, 30);
+                    imgWidth = Enemies.get(step).getWidth();
+                    imgHeight = Enemies.get(step).getHeight();
+                    g.drawImage(Enemies.get(step).getImage(), xPos, yPos,
+                            imgWidth, imgHeight,gamePanel);
+
+                    g.fillRect(player.getX(),player.getY(),player.getWidth(),
+                            player.getHeight());
                     if(bullet.isAlive()){
-                        g.drawOval(bullet.getX(), bullet.getY(), 2, 10);
+                        //g.drawOval(bullet.getX(), bullet.getY(),2,10);
+                        imgWidth = bullet.getWidth();
+                        imgHeight = bullet.getHeight();
+                        g.drawImage(bullet.getImage(), bullet.getX(),
+                                bullet.getY(), imgWidth, imgHeight, mainFrame);
                     }
                 }
             }
@@ -192,7 +203,7 @@ public final class Tarea_Shooter extends Thread{
 
         @Override
         public void keyPressed(KeyEvent e) {
-            System.out.println(e.getKeyCode());
+            
             int speed = e.getModifiers() == 1 ? 10 : 3;
             switch(e.getKeyCode()){
                 case 37:
@@ -207,6 +218,8 @@ public final class Tarea_Shooter extends Thread{
                     //32 = SpaceBar
                     if (!bullet.isAlive()){
                         bullet = new Bullet(player.getX(),player.getY());
+                        bullet.setImage("tarea_shooter/images/bullet.png");
+                        bullet.setSize(20);
                     }
                     break;
             }
@@ -229,19 +242,20 @@ public final class Tarea_Shooter extends Thread{
                 //10 = Enter
                 try{
                     numberOfEnemies = Integer.parseInt(introText.getText());
-                    System.out.println(numberOfEnemies);
+                    
                     if (1 > numberOfEnemies){
                         throw new Exception();
                     }
+                    
                     firstFrame.dispose();
-                    inputValidator=false;
                     
                     Enemies = new ArrayList(numberOfEnemies);
                     createEnemies(numberOfEnemies);
                     sortEnemies();
-                    printEnemiesY();
+                    //printEnemiesY();
                     
                     player = new Player(Enemies.size());
+                    player.setSize(40);
                     player.setPosition(mainFrame.getWidth()/2, 500);
                     mainFrame.repaint();
                 }

@@ -19,50 +19,22 @@
  */
 package tarea_shooter.player;
 
+import tarea_shooter.libs.InteractiveObjects;
+
 /**
  * The Player class, used to create and store the player, Enemy Class and Bullet
  * Class
  * @author Eduardo Vera
  * @author Rodrigo Stevenson
  */
-public class Player{
-    private Punto2D Position;
-    private int ammo;
-    private boolean alive;
-    
+public class Player extends InteractiveObjects{
     public Player(){
-        alive = true;
+        super();
     }
     public Player(int ammo){
-        super();
-        this.ammo = ammo;
+        super(ammo);
     }
-    public void setAmmo(int ammo){
-        this.ammo = ammo;
+    public Player(int xPos,int yPos){
+        super(xPos,yPos);
     }
-    public void setAlive(boolean alive){
-        this.alive = alive;
-    }
-    public boolean isAlive(){
-        return alive;
-    }
-    public void kill(){
-        alive = false;
-    }
-    public void setPosition(int xPos,int yPos){
-        Position = new Punto2D(xPos,yPos);
-    }
-    public void setX(int xPos){
-        Position.setX(xPos);
-    }
-    public void setY(int yPos){
-        Position.setY(yPos);
-    }
-    public int getX(){
-        return (int) Position.getX();
-    }
-    public int getY(){
-        return (int) Position.getY();
-    }
-    
 }

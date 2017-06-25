@@ -19,20 +19,20 @@
  */
 package tarea_shooter.bullet;
 
-import tarea_shooter.player.Player;
+import tarea_shooter.libs.InteractiveObjects;
 
 /**
  * This is the class of the Bullet
  * @author Eduardo Vera
  * @author Rodrigo Stevenson
  */
-public class Bullet extends Player{
+public class Bullet extends InteractiveObjects{
     
     public Bullet(){
         super();
     }
     public Bullet(int xPos, int yPos){
-        super.setAlive(true);
-        super.setPosition(xPos,yPos);
+        super(xPos,yPos);
     }
+    
 }
