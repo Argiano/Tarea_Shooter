@@ -142,7 +142,7 @@ public final class Tarea_Shooter extends Thread{
                     if(diff > 0 && Math.abs(diff)< 30){
                         Enemies.get(step).kill();
                         bullet.kill();
-                        if(!Enemies.isEmpty() && enemiesDead()){
+                        if(!Enemies.isEmpty() && enemiesDead()||player.getAmmo()==0){
                             createFirstFrame();
                         }
                     }
