@@ -63,7 +63,6 @@ public final class Tarea_Shooter extends Thread{
         firstFrame.add(introText);
         
         introText.addKeyListener(new introKeyListener());
-        
         firstFrame.setVisible(true);
         firstFrame.setDefaultCloseOperation(3);
     }
@@ -113,7 +112,7 @@ public final class Tarea_Shooter extends Thread{
             try{
                 if (bullet.isAlive()){
                     bullet.setY(bullet.getY()-1);
-                    if (bullet.getY() < 0)bullet.kill();
+                    if (bullet.getHitY() < 0)bullet.kill();
                     killEnemy();
                     Thread.sleep(5);
                 }
@@ -127,8 +126,9 @@ public final class Tarea_Shooter extends Thread{
     public void killEnemy(){
         for (int step = 0; step < Enemies.size(); step++){
             if(Enemies.get(step).isAlive()){
-                if (bullet.getY() == Enemies.get(step).getY()+30) {
-                    int diff = bullet.getX() - Enemies.get(step).getX();
+                if (bullet.getHitY() == 
+                        (Enemies.get(step).getY()+Enemies.get(step).getHeight())) {
+                    int diff = bullet.getHitX() - Enemies.get(step).getX();
                     if(diff > 0 && Math.abs(diff)< 30){
                         Enemies.get(step).kill();
                         bullet.kill();
@@ -220,6 +220,7 @@ public final class Tarea_Shooter extends Thread{
                         bullet = new Bullet(player.getX(),player.getY());
                         bullet.setImage("tarea_shooter/images/bullet.png");
                         bullet.setSize(20);
+                        player.setAmmo(player.getAmmo()-1);
                     }
                     break;
             }

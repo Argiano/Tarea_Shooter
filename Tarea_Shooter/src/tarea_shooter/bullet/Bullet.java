@@ -27,12 +27,18 @@ import tarea_shooter.libs.InteractiveObjects;
  * @author Rodrigo Stevenson
  */
 public class Bullet extends InteractiveObjects{
-    
+
     public Bullet(){
         super();
     }
     public Bullet(int xPos, int yPos){
         super(xPos,yPos);
     }
-    
+
+    public int getHitX(){
+        return this.getX() + (this.getWidth()/2);
+    }
+    public int getHitY(){
+        return this.getY() + (this.getHeight()/2);
+    }
 }
