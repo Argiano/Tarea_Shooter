@@ -64,6 +64,8 @@ public final class Tarea_Shooter extends Thread{
         
         introText.addKeyListener(new introKeyListener());
         firstFrame.setVisible(true);
+        firstFrame.setAlwaysOnTop(true);
+        firstFrame.setResizable(false);
         firstFrame.setDefaultCloseOperation(3);
     }
     
@@ -75,9 +77,11 @@ public final class Tarea_Shooter extends Thread{
     public void endFrame(){
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
+        mainFrame.setResizable(false);
     }
 
     public Tarea_Shooter(){
+        createFirstFrame();
         createFrame(800,600,"Tarea");
 
         Enemies = new ArrayList<>();
@@ -90,7 +94,7 @@ public final class Tarea_Shooter extends Thread{
         
         mainFrame.addKeyListener(new gameKeyListener());
         endFrame();
-        createFirstFrame();
+        
     }
     public static void main(String[] args) {
         Thread thread1 = new Tarea_Shooter();
@@ -107,12 +111,18 @@ public final class Tarea_Shooter extends Thread{
     }
     
     @Override
-    public void run(){  
+    public void run(){
         while(true){
             try{
+                mainFrame.setFocusable(!firstFrame.isShowing());
                 if (bullet.isAlive()){
                     bullet.setY(bullet.getY()-1);
-                    if (bullet.getHitY() < 0)bullet.kill();
+                    if (bullet.getHitY() < 0){
+                        bullet.kill();
+                        if (player.getAmmo()==0){
+                            createFirstFrame();
+                        }
+                    }
                     killEnemy();
                     Thread.sleep(5);
                 }
