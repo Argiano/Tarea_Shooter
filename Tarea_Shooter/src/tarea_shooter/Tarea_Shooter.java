@@ -222,7 +222,7 @@ public final class Tarea_Shooter extends Thread{
                     break;
                 case 39:
                     //39 = RightArrow
-                    player.setX(player.getX()+speed);
+                    //player.setX(player.getX()+speed);
                     break;
                 case 32:
                     //32 = SpaceBar
@@ -267,7 +267,7 @@ public final class Tarea_Shooter extends Thread{
                     
                     player = new Player(Enemies.size());
                     player.setSize(40);
-                    player.setPosition(mainFrame.getWidth()/2, 500);
+                    player.setPosition(mainFrame.getWidth() - 30, 500);
                     mainFrame.repaint();
                 }
                 catch(ArithmeticException errorOne){
