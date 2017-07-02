@@ -191,8 +191,9 @@ public final class Tarea_Shooter extends Thread{
                     g.drawImage(Enemies.get(step).getImage(), xPos, yPos,
                             imgWidth, imgHeight,gamePanel);
 
-                    g.fillRect(player.getX(),player.getY(),player.getWidth(),
-                            player.getHeight());
+                    g.drawImage(player.getImage(),player.getX(),player.getY(),player.getWidth(),
+                            player.getHeight(), mainFrame);
+                    
                     if(bullet.isAlive()){
                         //g.drawOval(bullet.getX(), bullet.getY(),2,10);
                         imgWidth = bullet.getWidth();
@@ -227,7 +228,7 @@ public final class Tarea_Shooter extends Thread{
                 case 32:
                     //32 = SpaceBar
                     if (!bullet.isAlive()){
-                        bullet = new Bullet(player.getX(),player.getY());
+                        bullet = new Bullet(player.getX()+10,player.getY());
                         bullet.setImage("tarea_shooter/images/bullet.png");
                         bullet.setSize(20);
                         player.setAmmo(player.getAmmo()-1);
@@ -268,6 +269,7 @@ public final class Tarea_Shooter extends Thread{
                     player = new Player(Enemies.size());
                     player.setSize(40);
                     player.setPosition(mainFrame.getWidth() - 30, 500);
+                    player.setImage("tarea_shooter/images/player.png");
                     mainFrame.repaint();
                 }
                 catch(ArithmeticException errorOne){
