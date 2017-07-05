@@ -23,8 +23,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import tarea_shooter.player.*;
 import tarea_shooter.enemy.Enemy;
 import tarea_shooter.bullet.Bullet;
@@ -39,7 +37,6 @@ public final class Tarea_Shooter extends Thread{
     private JFrame firstFrame;
     private JFrame mainFrame;
     private ArrayList<Enemy> Enemies;
-    //private ArrayList<Bullet> Bullets;
     private Bullet bullet;
     private Player player;
     private JPanel gamePanel;
@@ -126,9 +123,7 @@ public final class Tarea_Shooter extends Thread{
                     killEnemy();
                     Thread.sleep(5);
                 }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Tarea_Shooter.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (InterruptedException ex) {}
             mainFrame.repaint();
         }
     }
@@ -164,7 +159,7 @@ public final class Tarea_Shooter extends Thread{
     }
     
     public void printEnemiesY(){
-        Enemies.forEach((x) -> System.out.println(x.getY()));
+        Enemies.forEach((en) -> System.out.println(en.getY()));
     }
     public boolean enemiesDead(){
         boolean allDead = false;
@@ -190,20 +185,20 @@ public final class Tarea_Shooter extends Thread{
                     imgHeight = Enemies.get(step).getHeight();
                     g.drawImage(Enemies.get(step).getImage(), xPos, yPos,
                             imgWidth, imgHeight,gamePanel);
-
                     g.drawImage(player.getImage(),player.getX(),player.getY(),player.getWidth(),
                             player.getHeight(), mainFrame);
-                    
-                    if(bullet.isAlive()){
-                        //g.drawOval(bullet.getX(), bullet.getY(),2,10);
-                        imgWidth = bullet.getWidth();
-                        imgHeight = bullet.getHeight();
-                        g.drawImage(bullet.getImage(), bullet.getX(),
-                                bullet.getY(), imgWidth, imgHeight, mainFrame);
-                    }
+                    g.setFont(Font.getFont(Font.SERIF));
+                    g.setColor(Color.red);
+                    g.drawString("Disparos: " + player.getAmmo(), 20, mainFrame.getHeight()-40);
                 }
+            }       
+            if(bullet.isAlive()){
+                //g.drawOval(bullet.getX(), bullet.getY(),2,10);
+                imgWidth = bullet.getWidth();
+                imgHeight = bullet.getHeight();
+                g.drawImage(bullet.getImage(), bullet.getX(),
+                        bullet.getY(), imgWidth, imgHeight, mainFrame);
             }
-
         }
     }
     
