@@ -58,14 +58,19 @@ public final class Tarea_Shooter extends Thread{
         
         firstFrame.add(introLabel);
         firstFrame.add(introText);
-        
+                
         introText.addKeyListener(new introKeyListener());
         firstFrame.setVisible(true);
         firstFrame.setAlwaysOnTop(true);
         firstFrame.setResizable(false);
         firstFrame.setDefaultCloseOperation(3);
     }
-    
+    public void createJOptionPane(){
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Total Enemigos: " + Enemies.size() + "\n"+
+                    "Aciertos: " + enemiesKilled());
+    }
     public void createFrame(int width, int height, String frameText){
         mainFrame = new JFrame(frameText);
         mainFrame.setSize(width,height);
@@ -118,6 +123,7 @@ public final class Tarea_Shooter extends Thread{
                         bullet.kill();
                         if (player.getAmmo()==0){
                             createFirstFrame();
+                            createJOptionPane();
                         }
                     }
                     killEnemy();
@@ -139,6 +145,7 @@ public final class Tarea_Shooter extends Thread{
                         bullet.kill();
                         if(!Enemies.isEmpty() && enemiesDead()||player.getAmmo()==0){
                             createFirstFrame();
+                            createJOptionPane();
                         }
                     }
                 }
@@ -161,6 +168,7 @@ public final class Tarea_Shooter extends Thread{
     public void printEnemiesY(){
         Enemies.forEach((en) -> System.out.println(en.getY()));
     }
+    
     public boolean enemiesDead(){
         boolean allDead = false;
         for (int step = 0; step < Enemies.size(); step++){
@@ -169,6 +177,15 @@ public final class Tarea_Shooter extends Thread{
                 }
             }
         return !allDead;   
+    }
+    public int enemiesKilled(){
+        int enKilled = 0;
+        for (int step = 0; step < Enemies.size(); step++){
+            if(Enemies.get(step).isAlive()){
+                enKilled++;
+                }
+            }
+        return Enemies.size() - enKilled;
     }
     
     //INNER CLASSES
